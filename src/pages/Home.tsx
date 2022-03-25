@@ -5,22 +5,23 @@ import '../styles/auth.scss'
 import EnterRoomIcon from '../assets/images/enter-room.png'
 import { Button } from "../components/Button"
 import { useNavigate } from 'react-router-dom'
-import { firebase, auth } from '../services/firebase'
+import { useAuth } from '../hooks/useAuth'
 
 
 
 export function Home() {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate() 
+  const { user ,signIntWithGoogle } = useAuth()
 
   function handleCreateRoom(){
-    const provider = new firebase.auth.GoogleAuthProvider()
 
-    auth.signInWithPopup(provider).then(result => {
-      console.log(result)
-    })
+    if(!user){
+      signIntWithGoogle()
+    }
     
     navigate('/rooms/new')
+
   }
 
 
